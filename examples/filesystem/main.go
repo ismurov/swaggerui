@@ -45,9 +45,7 @@ func realMain() error {
 		return fmt.Errorf("failed to create swagger: %w", err)
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/swagger-ui/", http.StatusFound)
-	})
+	http.Handle("/", http.RedirectHandler("/swagger-ui/", http.StatusFound))
 	http.Handle("/swagger-ui/", http.StripPrefix("/swagger-ui/", h))
 
 	fmt.Printf(""+

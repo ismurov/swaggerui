@@ -26,9 +26,7 @@ func main() {
 func realMain() error {
 	flag.Parse()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/swagger/?url="+*specURL, http.StatusFound)
-	})
+	http.Handle("/", http.RedirectHandler("/swagger/?url="+*specURL, http.StatusFound))
 	http.Handle("/swagger/", http.StripPrefix("/swagger/", http.FileServer(http.FS(swaggerui.AssetsFS()))))
 
 	fmt.Printf(""+
